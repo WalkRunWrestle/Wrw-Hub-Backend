@@ -1,0 +1,2045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Rattlesnake</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#f6f7f9;
+      --panel:#ffffff;
+      --panel2:#f2f4f7;
+      --border:#d9dee6;
+      --text:#111418;
+      --muted:rgba(17,20,24,.68);
+      --green:#048d64;
+      --green2:#06a879;
+      --gold:#e6b84a;
+      --danger:#a62d2d;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0}
+    body{
+      font-family:Inter, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(900px 500px at 20% 10%, rgba(4,141,100,.10), transparent 60%),
+        radial-gradient(700px 400px at 100% 0%, rgba(230,184,74,.10), transparent 55%),
+        linear-gradient(180deg, #ffffff, #f3f5f7);
+    }
+
+    .screen{
+      min-height:100vh;
+      display:none;
+      padding:10px 10px 18px;
+      justify-content:center;
+      align-items:center;
+    }
+    .screen.active{display:flex}
+
+    .card{
+      width:min(96vw, 760px);
+      background:rgba(255,255,255,.92);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:10px;
+      box-shadow:0 14px 30px rgba(16,24,40,.08);
+      backdrop-filter: blur(4px);
+    }
+
+    .login-card{
+      width:min(94vw, 380px);
+      text-align:center;
+      padding:14px;
+    }
+
+    .logo{
+      display:block;
+      max-width:120px;
+      width:100%;
+      height:auto;
+      margin:0 auto 8px;
+    }
+
+    .medal{
+      display:block;
+      max-width:120px;
+      width:100%;
+      height:auto;
+      margin:10px auto;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(17,20,24,.03);
+      padding:4px;
+    }
+
+    .medal-small{
+      display:block;
+      max-width:95px;
+      width:100%;
+      height:auto;
+      margin:6px auto 10px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(17,20,24,.03);
+      padding:4px;
+    }
+
+    h1,h2,h3,p{margin:0}
+
+    .title{
+      font-size:20px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.4px;
+      text-align:center;
+    }
+
+    .sub{
+      margin-top:5px;
+      color:var(--muted);
+      font-size:12px;
+      text-align:center;
+      line-height:1.4;
+    }
+
+    .notice{
+      margin-top:8px;
+      padding:9px 10px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(17,20,24,.03);
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.45;
+    }
+
+    .pill-note{
+      display:inline-block;
+      margin-top:10px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(4,141,100,.25);
+      background:rgba(4,141,100,.10);
+      color:var(--green);
+      font-size:11px;
+      font-weight:800;
+    }
+
+    .input{
+      width:100%;
+      padding:11px 12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:#ffffff;
+      color:var(--text);
+      font-size:14px;
+      margin-top:10px;
+      outline:none;
+    }
+
+    .btn{
+      border:none;
+      border-radius:12px;
+      padding:11px 13px;
+      font-size:14px;
+      font-weight:900;
+      cursor:pointer;
+      transition:transform .15s ease, filter .15s ease, opacity .15s ease;
+      text-decoration:none;
+      text-align:center;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+    }
+
+    .btn:hover{transform:translateY(-1px);filter:brightness(1.05)}
+    .btn:disabled{opacity:.45;cursor:not-allowed;transform:none;filter:none}
+
+    .btn-primary{
+      background:linear-gradient(135deg,var(--green),var(--green2));
+      color:#fff;
+      box-shadow:0 10px 24px rgba(4,141,100,.16);
+    }
+
+    .btn-secondary{
+      background:#ffffff;
+      color:var(--text);
+      border:1px solid var(--border);
+    }
+
+    .btn-danger{background:var(--danger);color:#fff}
+    .btn-gold{
+      background:linear-gradient(135deg, rgba(230,184,74,1), rgba(255,214,107,1), rgba(194,143,44,1));
+      color:#141418;
+    }
+
+    .btn-certificate{
+      background:linear-gradient(135deg, #19b77f, #33d69e);
+      color:#ffffff;
+      box-shadow:0 0 0 1px rgba(255,255,255,.30), 0 10px 24px rgba(25,183,127,.16);
+    }
+
+    .full{width:100%;margin-top:10px}
+
+    .app-wrap{
+      width:min(96vw, 940px);
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .top-card{
+      text-align:center;
+      padding:10px;
+      background:
+        radial-gradient(430px 200px at 50% 0%, rgba(4,141,100,.12), transparent 70%),
+        linear-gradient(180deg, #ffffff, #f7f9fb);
+    }
+
+    .status-bar{
+      margin-top:8px;
+      padding:9px 10px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(17,20,24,.04);
+      font-size:11px;
+      font-weight:800;
+      line-height:1.35;
+    }
+    .status-ready{ color:#0a7b58; }
+    .status-saved{ color:#111418; }
+    .status-complete{ color:#8d6330; }
+
+    .progress-big{
+      margin-top:6px;
+      font-size:15px;
+      font-weight:900;
+      line-height:1.2;
+    }
+
+    .progress-bar{
+      width:100%;
+      height:10px;
+      border-radius:999px;
+      background:rgba(17,20,24,.08);
+      border:1px solid var(--border);
+      overflow:hidden;
+      margin-top:8px;
+    }
+
+    .progress-fill{
+      height:100%;
+      width:0%;
+      background:linear-gradient(90deg, #036c4b, #048d64, #0ab17e);
+      transition:width .25s ease;
+    }
+
+    .summary-strip{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:6px;
+      margin-top:8px;
+    }
+
+    .summary-box{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      border-radius:12px;
+      padding:8px 9px;
+      text-align:left;
+    }
+
+    .summary-label{
+      font-size:9px;
+      color:var(--muted);
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.4px;
+    }
+
+    .summary-value{
+      margin-top:3px;
+      font-size:12px;
+      font-weight:900;
+      line-height:1.25;
+    }
+
+    .route-card{
+      margin-top:8px;
+      border:1px solid rgba(214,180,115,.36);
+      border-radius:16px;
+      overflow:hidden;
+      background:
+        radial-gradient(360px 170px at 50% 0%, rgba(255,198,106,.18), transparent 70%),
+        linear-gradient(180deg, #fffaf0, #f7f1e6);
+      text-align:left;
+      box-shadow:0 12px 28px rgba(17,20,24,.08), inset 0 0 0 1px rgba(255,255,255,.55);
+    }
+
+    .route-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+      padding:10px 12px 0;
+    }
+
+    .route-title{
+      font-size:14px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.35px;
+    }
+
+    .route-stage{
+      font-size:11px;
+      color:#8a6330;
+      font-weight:900;
+      white-space:nowrap;
+    }
+
+    .route-percent{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:72px;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,213,124,.28);
+      background:rgba(230,184,74,.14);
+      color:#6f531e;
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.2px;
+      box-shadow:0 6px 16px rgba(255,213,124,.08);
+    }
+
+    .route-wrap{
+      padding:8px 10px 10px;
+    }
+
+    .route-caption{
+      color:rgba(70,52,30,.74);
+      font-size:11px;
+      line-height:1.35;
+      margin-top:6px;
+    }
+
+    .milestones{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:6px;
+      margin-top:8px;
+    }
+
+    .milestone{
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      padding:7px 6px;
+      text-align:center;
+    }
+
+    .milestone-top{
+      font-size:10px;
+      font-weight:900;
+      line-height:1.2;
+    }
+
+    .milestone-bottom{
+      font-size:9px;
+      color:var(--muted);
+      margin-top:3px;
+      line-height:1.25;
+    }
+
+    .milestone.done{
+      border-color:rgba(255,213,124,.45);
+      background:rgba(255,213,124,.12);
+      box-shadow:0 0 0 1px rgba(255,213,124,.10) inset, 0 8px 18px rgba(255,213,124,.08);
+    }
+
+    .route-dot{
+      transition:opacity .2s ease, fill .2s ease, r .2s ease;
+      opacity:.7;
+    }
+
+    .route-dot.done{
+      fill:#fff0b8;
+      stroke:#ffffff;
+      opacity:1;
+      filter:drop-shadow(0 0 10px rgba(255,213,124,.45));
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:8px;
+    }
+
+    @media (min-width:860px){
+      .grid{grid-template-columns:1.08fr .92fr}
+    }
+
+    .small-title{
+      font-size:14px;
+      font-weight:900;
+      margin-bottom:6px;
+    }
+
+    .manual-box,
+    .collectables-box{
+      margin-top:6px;
+      padding:8px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+    }
+
+    .manual-row{
+      display:flex;
+      gap:6px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-top:6px;
+    }
+
+    .manual-row .input{
+      flex:1 1 150px;
+      margin-top:0;
+    }
+
+    .section-title{
+      font-size:14px;
+      font-weight:900;
+      margin-bottom:6px;
+      text-transform:uppercase;
+      letter-spacing:.25px;
+    }
+
+    .collapsible-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      cursor:pointer;
+      user-select:none;
+    }
+
+    .collapse-toggle{
+      font-size:11px;
+      color:var(--muted);
+      font-weight:800;
+      white-space:nowrap;
+    }
+
+    .collapse-content{display:none}
+    .collapse-content.open{display:block}
+
+    .session-list{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      margin-top:8px;
+    }
+
+    .session-item{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      border-radius:12px;
+      padding:8px;
+    }
+
+    .session-top{
+      display:flex;
+      justify-content:space-between;
+      gap:6px;
+      align-items:center;
+      flex-wrap:wrap;
+      font-weight:800;
+      font-size:12px;
+    }
+
+    .session-meta{
+      margin-top:5px;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.4;
+    }
+
+    .session-badge{
+      display:inline-block;
+      margin-top:6px;
+      padding:4px 8px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(17,20,24,.04);
+      font-size:10px;
+      font-weight:900;
+    }
+
+    .badge-log{
+      color:#0a7b58;
+      border-color:rgba(4,141,100,.18);
+      background:rgba(4,141,100,.08);
+    }
+
+    .footer-actions{
+      margin-top:8px;
+      display:flex;
+      gap:6px;
+      flex-wrap:wrap;
+    }
+
+    .footer-actions .btn{
+      flex:1 1 130px;
+      width:auto;
+      margin-top:0;
+      padding:10px 12px;
+    }
+
+    .certificate-row{margin-top:10px}
+    .certificate-row .btn{
+      width:100%;
+      padding:12px 14px;
+      font-size:15px;
+    }
+
+    .help{
+      margin-top:8px;
+      color:var(--muted);
+      font-size:10px;
+      text-align:center;
+      line-height:1.35;
+    }
+
+    .login-help{
+      margin-top:10px;
+      font-size:11px;
+      color:var(--muted);
+      line-height:1.4;
+    }
+
+    .login-help a{
+      color:var(--green);
+      text-decoration:none;
+      font-weight:700;
+    }
+
+    select.input{appearance:none}
+
+    .collectables-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(90deg, rgba(130,0,255,0.08), rgba(255,0,200,0.08));
+      cursor:pointer;
+      user-select:none;
+    }
+
+    .collectables-header .section-title{margin:0}
+
+    .collectables-meta{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#ffffff;
+      border:1px solid rgba(4,141,100,.25);
+      color:#048d64;
+      font-size:11px;
+      font-weight:900;
+      white-space:nowrap;
+    }
+
+    .collectables-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:8px;
+      margin-top:8px;
+    }
+
+    .collectable-card{
+      position:relative;
+      border:1px solid var(--border);
+      border-radius:12px;
+      overflow:hidden;
+      background:#f5f7fa;
+      min-height:130px;
+    }
+
+    .collectable-card img{
+      display:block;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      aspect-ratio:3 / 4;
+    }
+
+    .collectable-card.locked img{
+      filter:grayscale(1) brightness(.35) blur(1px);
+      transform:scale(1.03);
+    }
+
+    .collectable-overlay{
+      position:absolute;
+      inset:0;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      gap:4px;
+      background:rgba(17,20,24,.16);
+      text-align:center;
+      padding:8px;
+    }
+
+    .collectable-lock{
+      font-size:24px;
+      line-height:1;
+    }
+
+    .collectable-name{
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.3px;
+    }
+
+    .collectable-status{
+      font-size:10px;
+      color:var(--muted);
+      line-height:1.25;
+    }
+
+    .collectable-card.unlocked .collectable-overlay{
+      background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(17,20,24,.18));
+      justify-content:flex-end;
+      align-items:flex-start;
+    }
+
+    .collectable-card.unlocked .collectable-status{
+      color:var(--green);
+      font-weight:800;
+    }
+
+    .collectable-card.unlocked{cursor:pointer}
+
+    .unlock-image,
+    .card-popup-image{
+      display:block;
+      max-width:240px;
+      width:100%;
+      margin:10px auto 8px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+    }
+
+    .overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(17,20,24,.68);
+      display:none;
+      justify-content:center;
+      align-items:center;
+      padding:12px;
+      z-index:9999;
+    }
+
+    .overlay.show{display:flex}
+
+    .modal-card{
+      width:min(94vw, 520px);
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:14px 12px;
+      text-align:center;
+      box-shadow:0 20px 60px rgba(17,20,24,.18);
+      max-height:92vh;
+      overflow:auto;
+    }
+
+    .modal-title{
+      font-size:24px;
+      font-weight:900;
+      margin-bottom:6px;
+    }
+
+    .modal-copy{
+      color:var(--muted);
+      line-height:1.4;
+      font-size:12px;
+      margin-bottom:10px;
+    }
+
+    .pill{
+      padding:7px 9px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(17,20,24,.04);
+      font-size:11px;
+      font-weight:800;
+    }
+
+    .danger-warning{
+      color:#8c2f2f;
+      border-color:rgba(166,45,45,.45);
+      background:rgba(166,45,45,.10);
+    }
+
+    .confirm-input{
+      text-transform:uppercase;
+      letter-spacing:.8px;
+      font-weight:900;
+      text-align:center;
+    }
+
+    .confirm-input::placeholder{
+      text-transform:none;
+      letter-spacing:0;
+      font-weight:600;
+    }
+
+    @media (max-width:420px){
+      .milestones{grid-template-columns:repeat(2,1fr)}
+    }
+
+    .collectable-card.locked img{
+      filter:grayscale(1) brightness(.55) blur(14px);
+      transform:scale(1.08);
+    }
+
+    .collectable-card.locked::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 50% 38%, rgba(4,141,100,.10), transparent 28%),
+        radial-gradient(circle at 50% 62%, rgba(230,184,74,.10), transparent 28%),
+        linear-gradient(180deg, rgba(255,255,255,.20), rgba(17,20,24,.42));
+      pointer-events:none;
+    }
+
+    .reveal-shell{
+      position:relative;
+      max-width:240px;
+      margin:10px auto 8px;
+    }
+
+    .reveal-card{
+      display:block;
+      width:100%;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      opacity:0;
+      transform:scale(.88);
+    }
+
+    .reveal-card.revealed{
+      animation:revealPop .45s ease forwards;
+    }
+
+    .reveal-cover{
+      position:absolute;
+      inset:0;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      border-radius:14px;
+      background:
+        radial-gradient(200px 120px at 50% 20%, rgba(255,213,124,.14), transparent 60%),
+        linear-gradient(135deg, rgba(4,141,100,.90), rgba(230,184,74,.82));
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow:0 0 24px rgba(4,141,100,.18), 0 0 18px rgba(230,184,74,.14);
+      cursor:pointer;
+      padding:14px;
+      text-align:center;
+    }
+
+    .reveal-cover.flash{
+      animation:revealFlash .26s ease;
+    }
+
+    .reveal-kicker{
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:1px;
+      text-transform:uppercase;
+      color:#fff9ea;
+      text-shadow:0 0 14px rgba(255,213,124,.24);
+    }
+
+    .reveal-title{
+      font-size:18px;
+      font-weight:900;
+      letter-spacing:.4px;
+      color:#fff;
+      text-shadow:0 0 12px rgba(255,255,255,.10), 0 0 12px rgba(4,141,100,.16);
+    }
+
+    .reveal-copy{
+      font-size:11px;
+      line-height:1.35;
+      color:rgba(255,255,255,.94);
+      max-width:180px;
+    }
+
+    .reveal-btn{
+      margin-top:2px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.10);
+      color:#fff;
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.4px;
+      text-transform:uppercase;
+      box-shadow:0 0 14px rgba(255,255,255,.06);
+    }
+
+    @keyframes revealPop{
+      0%{opacity:0;transform:scale(.84)}
+      60%{opacity:1;transform:scale(1.06)}
+      100%{opacity:1;transform:scale(1)}
+    }
+
+    @keyframes revealFlash{
+      0%{filter:brightness(1)}
+      40%{filter:brightness(1.7)}
+      100%{filter:brightness(1)}
+    }
+
+  </style>
+</head>
+<body>
+
+  <section id="loginScreen" class="screen active">
+    <div class="card login-card">
+      <img src="logoandtagpng.png" alt="Walk Run Wrestle" class="logo">
+      <h1 class="title">The Rattlesnake</h1>
+      <img src="Rattmed.png" alt="The Rattlesnake Medal" class="medal">
+      <p class="sub">Log into your WRW account to save progress across devices.</p>
+
+      <div class="pill-note">Your WRW account replaces the old race code.</div>
+
+      <div class="manual-box" style="margin-top:12px;text-align:left;">
+        <div class="collapsible-header" id="loginHowItWorksToggle">
+          <div class="section-title" style="margin:0;">How It Works</div>
+          <div class="collapse-toggle" id="loginHowItWorksToggleText">Show</div>
+        </div>
+
+        <div id="loginHowItWorksContent" class="collapse-content">
+          <div class="notice" style="margin-top:6px;">
+            1. Log into your WRW account.<br><br>
+            2. Track your walk or run in Strava or any fitness app.<br><br>
+            3. Log the distance inside this challenge app.<br><br>
+            4. Your progress saves to your device and your WRW account.<br><br>
+            5. When complete, send your proof screenshot and download your certificate.
+          </div>
+        </div>
+      </div>
+
+      <input id="authEmailInput" class="input" type="email" placeholder="Email address" autocomplete="email">
+      <input id="authPasswordInput" class="input" type="password" placeholder="Password" autocomplete="current-password">
+
+      <button id="authLoginBtn" type="button" class="btn btn-primary full">Log In</button>
+      <button id="authSignupBtn" type="button" class="btn btn-secondary full">Create Account</button>
+      <button id="authResetBtn" type="button" class="btn btn-secondary full">Forgot Password</button>
+
+      <div id="authMessage" class="help" style="text-align:center;"></div>
+
+      <div class="login-help">
+        Your progress is saved to your WRW account.<br><br>
+        Need help? Email
+        <a href="mailto:Contact@walkrunwrestle.com">Contact@walkrunwrestle.com</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="appScreen"  <section id="appScreen" class="screen">
+    <div class="app-wrap">
+      <div class="card top-card">
+        <img src="logoandtagpng.png" alt="Walk Run Wrestle" class="logo">
+        <h2 class="title">The Rattlesnake</h2>
+        <p class="sub">Log your runs and build progress toward 10K.</p>
+
+        <div id="statusBar" class="status-bar status-ready">Ready to log progress</div>
+
+        <div class="progress-big">
+          Total Saved Progress: <span id="savedTotalKm">0.00</span> / 10.00 km
+        </div>
+
+        <div class="progress-bar">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+
+        <div class="summary-strip">
+          <div class="summary-box">
+            <div class="summary-label">Runs Saved</div>
+            <div class="summary-value" id="runsSavedCount">0 runs</div>
+          </div>
+          <div class="summary-box">
+            <div class="summary-label">Last Saved Run</div>
+            <div class="summary-value" id="lastSavedRun">No runs saved yet</div>
+          </div>
+        </div>
+
+        <div class="route-card">
+          <div class="route-head">
+            <div class="route-title">Journey Progress</div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
+              <div class="route-stage" id="routeStage">Start line</div>
+              <div class="route-percent" id="routePercent">0%</div>
+            </div>
+          </div>
+
+          <div class="route-wrap">
+            <svg viewBox="0 0 700 260" width="100%" aria-label="Rattlesnake progress route">
+              <defs>
+                <linearGradient id="routeBg" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#6a4b2f"/>
+                  <stop offset="100%" stop-color="#2a1d11"/>
+                </linearGradient>
+                <linearGradient id="routeFillGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#f0c66a"/>
+                  <stop offset="45%" stop-color="#ffd57c"/>
+                  <stop offset="100%" stop-color="#fff0b8"/>
+                </linearGradient>
+                <filter id="routeGlow">
+                  <feGaussianBlur stdDeviation="6" result="blur"/>
+                  <feMerge>
+                    <feMergeNode in="blur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+              </defs>
+
+              <text x="24" y="42" fill="#8d6330" font-size="18" font-weight="900">START</text>
+              <text x="575" y="42" fill="#8d6330" font-size="18" font-weight="900">FINISH</text>
+
+              <path id="routeTrack"
+                    d="M 50 200
+                       C 120 170, 140 140, 210 150
+                       C 280 160, 290 205, 360 196
+                       C 430 187, 440 118, 520 122
+                       C 580 125, 600 90, 650 72"
+                    fill="none"
+                    stroke="url(#routeBg)"
+                    stroke-width="28"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    opacity=".95"></path>
+
+              <path id="routeFillPath"
+                    d="M 50 200
+                       C 120 170, 140 140, 210 150
+                       C 280 160, 290 205, 360 196
+                       C 430 187, 440 118, 520 122
+                       C 580 125, 600 90, 650 72"
+                    fill="none"
+                    stroke="url(#routeFillGrad)"
+                    stroke-width="18"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    filter="url(#routeGlow)"></path>
+
+              <path id="routeFillHalo"
+                    d="M 50 200
+                       C 120 170, 140 140, 210 150
+                       C 280 160, 290 205, 360 196
+                       C 430 187, 440 118, 520 122
+                       C 580 125, 600 90, 650 72"
+                    fill="none"
+                    stroke="#fff0b8"
+                    stroke-opacity=".28"
+                    stroke-width="28"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    filter="url(#routeGlow)"></path>
+
+              <circle cx="50" cy="200" r="14" fill="#048d64" stroke="#ffffff" stroke-width="3"></circle>
+              <circle id="dot25" class="route-dot" cx="210" cy="150" r="12" data-base-r="12" fill="#c9b08d" stroke="#ffd57c" stroke-width="3"></circle>
+              <circle id="dot50" class="route-dot" cx="360" cy="196" r="12" data-base-r="12" fill="#c9b08d" stroke="#ffd57c" stroke-width="3"></circle>
+              <circle id="dot75" class="route-dot" cx="520" cy="122" r="12" data-base-r="12" fill="#c9b08d" stroke="#ffd57c" stroke-width="3"></circle>
+              <circle id="dot100" class="route-dot" cx="650" cy="72" r="16" data-base-r="16" fill="#8d6330" stroke="#ffffff" stroke-width="3"></circle>
+            </svg>
+
+            <div class="route-caption">
+              Every logged distance fills your Rattlesnake journey. Hit each milestone to unlock a new collectable card.
+            </div>
+
+            <div class="milestones">
+              <div class="milestone" id="mile25">
+                <div class="milestone-top">25%</div>
+                <div class="milestone-bottom">RS25</div>
+              </div>
+              <div class="milestone" id="mile50">
+                <div class="milestone-top">50%</div>
+                <div class="milestone-bottom">RS50</div>
+              </div>
+              <div class="milestone" id="mile75">
+                <div class="milestone-top">75%</div>
+                <div class="milestone-bottom">RS75</div>
+              </div>
+              <div class="milestone" id="mile100">
+                <div class="milestone-top">100%</div>
+                <div class="milestone-bottom">RS100</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="collectables-box">
+          <div class="collectables-header" id="collectablesToggle">
+            <div class="section-title">Collectables</div>
+            <div class="collectables-meta" id="collectablesMeta">0 / 4 · Show</div>
+          </div>
+
+          <div id="collectablesContent" class="collapse-content">
+            <div class="notice" style="margin-top:6px;">
+              Unlock limited digital collectable cards at 25%, 50%, 75%, and completion.
+            </div>
+            <div id="collectablesGrid" class="collectables-grid"></div>
+          </div>
+        </div>
+
+        <div class="footer-actions" id="completionActions" style="display:none; margin-top:8px;">
+          <button id="viewCompletionBtn" class="btn btn-gold">View Completion</button>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="small-title">Log Progress</div>
+
+          <div class="notice" style="margin-top:0;">
+            Track in Strava or any fitness app, then log the distance here.
+          </div>
+
+          <div class="manual-box">
+            <div class="collapsible-header" id="logToggle">
+              <div class="section-title" style="margin:0;">Add Run</div>
+              <div class="collapse-toggle" id="logToggleText">Show</div>
+            </div>
+
+            <div id="logContent" class="collapse-content">
+              <div class="manual-row">
+                <input id="manualDistance" class="input" type="number" step="0.01" min="0" placeholder="Distance in km">
+                <input id="manualDate" class="input" type="date">
+              </div>
+
+              <div class="manual-row">
+                <button id="manualAddBtn" class="btn btn-primary">Save Run</button>
+                <button id="stravaHelpBtn" class="btn btn-secondary">How it works</button>
+              </div>
+
+              <div class="notice" style="margin-top:8px;">
+                You can use Strava, Garmin, Apple Fitness, Samsung Health, treadmill screenshots, or any app/device that clearly shows your distance.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="collapsible-header" id="savedRunsToggle">
+            <div class="small-title" style="margin:0;">Saved Runs</div>
+            <div class="collapse-toggle" id="savedRunsToggleText">Show</div>
+          </div>
+
+          <div id="savedRunsContent" class="collapse-content">
+            <div id="sessionList" class="session-list"></div>
+
+            <div class="footer-actions">
+              <button id="resetBtn" class="btn btn-secondary">Reset Progress</button>
+              <button id="logoutBtn" class="btn btn-secondary">Log Out</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="finishOverlay" class="overlay">
+    <div class="modal-card">
+      <div class="modal-title">Well Done!</div>
+      <img src="Rattmed.png" alt="The Rattlesnake Medal" class="medal-small">
+      <div class="modal-copy">
+        You’ve completed <strong>The Rattlesnake 10K</strong>.
+      </div>
+
+      <div class="footer-actions" style="justify-content:center;">
+        <div class="pill">🏁 Total saved: <span id="finishTotal">0.00</span> km</div>
+      </div>
+
+      <div id="finishMessage" class="notice" style="text-align:left;">
+        Attach your proof screenshot before sending.
+      </div>
+
+      <div class="certificate-row">
+        <a id="certificateBtn" class="btn btn-certificate" href="https://walkrunwrestle.github.io/WRW-RATTLESNAKE-CERT/" target="_blank" rel="noopener noreferrer">
+          Download Certificate
+        </a>
+      </div>
+
+      <div class="manual-box" style="margin-top:8px; text-align:left;">
+        <div class="collapsible-header" id="sendProofHelpToggle">
+          <div class="section-title" style="margin:0;">Send Proof Help</div>
+          <div class="collapse-toggle" id="sendProofHelpToggleText">Show</div>
+        </div>
+
+        <div id="sendProofHelpContent" class="collapse-content">
+          <div class="notice" style="margin-top:6px;">
+            If your email app does not open automatically, send your proof manually to
+            <strong>Log@walkrunwrestle.com</strong>.<br><br>
+            Please include your <strong>full name</strong>, <strong>first line of address</strong>, and your <strong>proof screenshot(s)</strong>.
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-actions">
+        <button id="proofBtn" class="btn btn-gold">Send Proof</button>
+        <button id="closeFinishBtn" class="btn btn-secondary">Close</button>
+      </div>
+
+      <div class="help">
+        Attach your own tracking screenshot(s) to the email before sending.
+      </div>
+    </div>
+  </div>
+
+  <div id="collectableUnlockOverlay" class="overlay">
+    <div class="modal-card">
+      <div class="modal-title">New Unlock</div>
+      <div class="reveal-shell">
+        <img id="collectableUnlockImage" src="" alt="Unlocked collectable card" class="reveal-card">
+        <div id="collectableRevealCover" class="reveal-cover" role="button" tabindex="0" aria-label="Reveal reward">
+          <div class="reveal-kicker">Something Unlocked</div>
+          <div class="reveal-title">Hidden Reward</div>
+          <div class="reveal-copy">Tap to reveal your Rattlesnake collectable card.</div>
+          <div class="reveal-btn">Reveal Reward</div>
+        </div>
+      </div>
+      <div class="modal-copy">
+        You unlocked a Rattlesnake collectable card.
+      </div>
+      <div id="collectableUnlockName" class="notice" style="text-align:center; display:none;"></div>
+      <div class="footer-actions">
+        <button id="viewCollectableBtn" class="btn btn-primary" disabled>View Collectables</button>
+        <button id="closeCollectableUnlockBtn" class="btn btn-secondary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="howItWorksOverlay" class="overlay">
+    <div class="modal-card">
+      <div class="modal-title">How Tracking Works</div>
+      <div class="notice" style="margin-top:0; text-align:left;">
+        1. Track your walk or run in Strava or any fitness app.<br><br>
+        2. Open your WRW challenge and log the distance you completed.<br><br>
+        3. Your total progress builds toward 10K.<br><br>
+        4. Unlock collectable cards as you go.<br><br>
+        5. When complete, send your proof screenshot and claim your certificate.
+      </div>
+
+      <div class="footer-actions">
+        <a href="https://play.google.com/store/apps/details?id=com.strava" target="_blank" class="btn btn-primary">Android</a>
+        <a href="https://apps.apple.com/app/strava-run-ride-hike/id426826309" target="_blank" class="btn btn-secondary">iPhone</a>
+      </div>
+
+      <div class="footer-actions">
+        <button id="closeHowItWorksBtn" class="btn btn-secondary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="collectableViewOverlay" class="overlay">
+    <div class="modal-card">
+      <div class="modal-title">Collectable Card</div>
+      <img id="cardPopupImage" src="" alt="Collectable card" class="card-popup-image">
+      <div id="cardPopupName" class="notice" style="text-align:center;"></div>
+      <div class="footer-actions">
+        <a id="downloadCardBtn" class="btn btn-primary" download>Download Card</a>
+        <button id="closeCardPopupBtn" class="btn btn-secondary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="resetConfirmOverlay" class="overlay">
+    <div class="modal-card">
+      <div class="modal-title">Delete All Data?</div>
+      <div class="notice danger-warning" style="text-align:left; margin-top:0;">
+        This will delete all saved runs, progress, collectables, and completion data from this device.
+      </div>
+      <div class="modal-copy" style="margin-top:10px;">
+        If you are sure, type <strong>WRW</strong> below to enable deletion.
+      </div>
+      <input id="resetConfirmInput" class="input confirm-input" type="text" placeholder="Type WRW">
+      <div class="footer-actions">
+        <button id="confirmResetBtn" class="btn btn-danger" disabled>Yes, Delete</button>
+        <button id="cancelResetBtn" class="btn btn-secondary">No</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const TARGET_KM = 10;
+    const STORAGE_KEY = "wrw_rattlesnake_v21_sessions";
+    const COMPLETE_KEY = "wrw_rattlesnake_v21_complete";
+    const WRW_EMAIL = "Log@walkrunwrestle.com";
+    const RUN_ID = "rattlesnake";
+    const WRW_VAULT_KEY = "wrw_card_vault";
+
+    const SUPABASE_URL = "https://iczmdnwcfbvngfuvtcfz.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imljem1kbndjZmJ2bmdmdXZ0Y2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0MTgyNzcsImV4cCI6MjA5NDk5NDI3N30.l5YZTSKk18_8V2BLYcYaiGxGFKw7xWT1bYC5xtJJNF4";
+    const sb = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+    let currentUser = null;
+    let cloudTotalKm = 0;
+
+    const COLLECTABLES_KEY = "wrw_rattlesnake_v21_collectables";
+    const COLLECTABLE_DEFS = [
+      { id: "RS25", name: "RS25", label: "25%", km: 2.5, file: "RS25.png" },
+      { id: "RS50", name: "RS50", label: "50%", km: 5.0, file: "RS50.png" },
+      { id: "RS75", name: "RS75", label: "75%", km: 7.5, file: "RS75.png" },
+      { id: "RS100", name: "RS100", label: "100%", km: 10.0, file: "RS100.png" }
+    ];
+
+    const loginScreen = document.getElementById("loginScreen");
+    const appScreen = document.getElementById("appScreen");
+
+    const authEmailInput = document.getElementById("authEmailInput");
+    const authPasswordInput = document.getElementById("authPasswordInput");
+    const authLoginBtn = document.getElementById("authLoginBtn");
+    const authSignupBtn = document.getElementById("authSignupBtn");
+    const authResetBtn = document.getElementById("authResetBtn");
+    const authMessage = document.getElementById("authMessage");
+
+    const manualDistanceInput = document.getElementById("manualDistance");
+    const manualDateInput = document.getElementById("manualDate");
+    const manualAddBtn = document.getElementById("manualAddBtn");
+
+    const savedTotalKmEl = document.getElementById("savedTotalKm");
+    const progressFillEl = document.getElementById("progressFill");
+    const sessionListEl = document.getElementById("sessionList");
+    const statusBar = document.getElementById("statusBar");
+    const runsSavedCount = document.getElementById("runsSavedCount");
+    const lastSavedRun = document.getElementById("lastSavedRun");
+    const routeStageEl = document.getElementById("routeStage");
+    const routePercentEl = document.getElementById("routePercent");
+
+    const finishOverlay = document.getElementById("finishOverlay");
+    const finishTotalEl = document.getElementById("finishTotal");
+    const finishMessage = document.getElementById("finishMessage");
+    const proofBtn = document.getElementById("proofBtn");
+    const closeFinishBtn = document.getElementById("closeFinishBtn");
+    const completionActions = document.getElementById("completionActions");
+    const viewCompletionBtn = document.getElementById("viewCompletionBtn");
+
+    const logToggle = document.getElementById("logToggle");
+    const logContent = document.getElementById("logContent");
+    const logToggleText = document.getElementById("logToggleText");
+
+    const savedRunsToggle = document.getElementById("savedRunsToggle");
+    const savedRunsContent = document.getElementById("savedRunsContent");
+    const savedRunsToggleText = document.getElementById("savedRunsToggleText");
+
+    const howItWorksOverlay = document.getElementById("howItWorksOverlay");
+    const closeHowItWorksBtn = document.getElementById("closeHowItWorksBtn");
+    const loginHowItWorksToggle = document.getElementById("loginHowItWorksToggle");
+    const loginHowItWorksContent = document.getElementById("loginHowItWorksContent");
+    const loginHowItWorksToggleText = document.getElementById("loginHowItWorksToggleText");
+    const stravaHelpBtn = document.getElementById("stravaHelpBtn");
+
+    const sendProofHelpToggle = document.getElementById("sendProofHelpToggle");
+    const sendProofHelpToggleText = document.getElementById("sendProofHelpToggleText");
+    const sendProofHelpContent = document.getElementById("sendProofHelpContent");
+
+    const collectablesToggle = document.getElementById("collectablesToggle");
+    const collectablesContent = document.getElementById("collectablesContent");
+    const collectablesMeta = document.getElementById("collectablesMeta");
+    const collectablesGrid = document.getElementById("collectablesGrid");
+
+    const collectableUnlockOverlay = document.getElementById("collectableUnlockOverlay");
+    const collectableUnlockImage = document.getElementById("collectableUnlockImage");
+    const collectableUnlockName = document.getElementById("collectableUnlockName");
+    const collectableRevealCover = document.getElementById("collectableRevealCover");
+    const closeCollectableUnlockBtn = document.getElementById("closeCollectableUnlockBtn");
+    const viewCollectableBtn = document.getElementById("viewCollectableBtn");
+
+    const collectableViewOverlay = document.getElementById("collectableViewOverlay");
+    const cardPopupImage = document.getElementById("cardPopupImage");
+    const cardPopupName = document.getElementById("cardPopupName");
+    const downloadCardBtn = document.getElementById("downloadCardBtn");
+    const closeCardPopupBtn = document.getElementById("closeCardPopupBtn");
+
+    const resetBtn = document.getElementById("resetBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const resetConfirmOverlay = document.getElementById("resetConfirmOverlay");
+    const resetConfirmInput = document.getElementById("resetConfirmInput");
+    const confirmResetBtn = document.getElementById("confirmResetBtn");
+    const cancelResetBtn = document.getElementById("cancelResetBtn");
+
+    const routeFillPath = document.getElementById("routeFillPath");
+    let currentUnlockCard = null;
+
+    function getSessions(){
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    }
+
+    function saveSessions(sessions){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions));
+    }
+
+    function getLocalTotalKm(){
+      return getSessions().reduce((sum, session) => sum + (session.distanceKm || 0), 0);
+    }
+
+    function getTotalKm(){
+      return Math.max(getLocalTotalKm(), cloudTotalKm || 0);
+    }
+
+    function setStatus(text, className){
+      statusBar.textContent = text;
+      statusBar.className = `status-bar ${className}`;
+    }
+
+    function toggleSection(contentEl, labelEl){
+      const open = contentEl.classList.contains("open");
+      contentEl.classList.toggle("open", !open);
+      if (labelEl) labelEl.textContent = open ? "Show" : "Hide";
+      if (contentEl === collectablesContent) updateCollectablesHeader();
+    }
+
+    function openResetConfirm(){
+      resetConfirmInput.value = "";
+      confirmResetBtn.disabled = true;
+      resetConfirmOverlay.classList.add("show");
+      setTimeout(() => resetConfirmInput.focus(), 50);
+    }
+
+    function closeResetConfirm(){
+      resetConfirmOverlay.classList.remove("show");
+    }
+
+    async function performResetProgress(){
+      await resetSupabaseProgress();
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(COMPLETE_KEY);
+      localStorage.removeItem(COLLECTABLES_KEY);
+      const vault = getVaultState();
+      if (vault.runs && vault.runs[RUN_ID]) {
+        delete vault.runs[RUN_ID];
+        saveVaultState(vault);
+      }
+      renderSessions();
+      renderCollectables();
+      updateOverallProgress();
+      updateCollectablesHeader();
+      hideFinishPopup();
+      closeResetConfirm();
+      manualDistanceInput.value = "";
+      manualDateInput.value = new Date().toISOString().split("T")[0];
+      setStatus("Ready to log progress", "status-ready");
+      alert("All data has been deleted from this device.");
+    }
+
+
+    function setAuthMessage(message){
+      if (authMessage) authMessage.textContent = message || "";
+    }
+
+    async function checkAuthSession(){
+      if (!sb){
+        setAuthMessage("WRW account system could not load.");
+        return;
+      }
+
+      const result = await sb.auth.getSession();
+      currentUser = result.data && result.data.session ? result.data.session.user : null;
+
+      if (currentUser){
+        loginScreen.classList.remove("active");
+        appScreen.classList.add("active");
+        await loadSupabaseProgress();
+
+        if (!savedRunsContent.classList.contains("open")) toggleSection(savedRunsContent, savedRunsToggleText);
+        if (!logContent.classList.contains("open")) toggleSection(logContent, logToggleText);
+      } else {
+        appScreen.classList.remove("active");
+        loginScreen.classList.add("active");
+      }
+    }
+
+    async function authLogin(){
+      if (!sb){
+        setAuthMessage("WRW account system could not load.");
+        return;
+      }
+
+      const email = authEmailInput.value.trim();
+      const password = authPasswordInput.value;
+
+      if (!email || !password){
+        setAuthMessage("Add your email and password first.");
+        return;
+      }
+
+      setAuthMessage("Logging in...");
+
+      const result = await sb.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+      if (result.error){
+        setAuthMessage(result.error.message);
+        return;
+      }
+
+      authPasswordInput.value = "";
+      setAuthMessage("");
+      await checkAuthSession();
+    }
+
+    async function authSignup(){
+      if (!sb){
+        setAuthMessage("WRW account system could not load.");
+        return;
+      }
+
+      const email = authEmailInput.value.trim();
+      const password = authPasswordInput.value;
+
+      if (!email || !password){
+        setAuthMessage("Add your email and password first.");
+        return;
+      }
+
+      setAuthMessage("Creating account...");
+
+      const result = await sb.auth.signUp({
+        email: email,
+        password: password
+      });
+
+      if (result.error){
+        setAuthMessage(result.error.message);
+        return;
+      }
+
+      setAuthMessage("Account created. You can log in now.");
+    }
+
+    async function authResetPassword(){
+      if (!sb){
+        setAuthMessage("WRW account system could not load.");
+        return;
+      }
+
+      const email = authEmailInput.value.trim();
+
+      if (!email){
+        setAuthMessage("Add your email first.");
+        return;
+      }
+
+      const result = await sb.auth.resetPasswordForEmail(email);
+
+      if (result.error){
+        setAuthMessage(result.error.message);
+        return;
+      }
+
+      setAuthMessage("Password reset email sent.");
+    }
+
+    async function authLogout(){
+      if (sb){
+        await sb.auth.signOut();
+      }
+
+      currentUser = null;
+      cloudTotalKm = 0;
+      appScreen.classList.remove("active");
+      loginScreen.classList.add("active");
+      setAuthMessage("");
+    }
+
+    async function loadSupabaseProgress(){
+      if (!sb || !currentUser){
+        return;
+      }
+
+      const result = await sb
+        .from("user_progress")
+        .select("distance_done")
+        .eq("user_id", currentUser.id)
+        .eq("race_id", RUN_ID)
+        .limit(1);
+
+      if (result.error){
+        console.log("Cloud progress load failed:", result.error.message);
+        setStatus("Cloud progress could not load. Device progress still works.", "status-ready");
+        return;
+      }
+
+      cloudTotalKm = result.data && result.data.length > 0
+        ? Number(result.data[0].distance_done || 0)
+        : 0;
+
+      updateOverallProgress();
+
+      const localTotal = getLocalTotalKm();
+      if (localTotal > cloudTotalKm){
+        await saveSupabaseProgress(localTotal);
+        cloudTotalKm = Number(localTotal.toFixed(2));
+        updateOverallProgress();
+        setStatus("Device progress synced to your WRW account", "status-saved");
+      } else {
+        setStatus("WRW account progress loaded", "status-saved");
+      }
+    }
+
+    async function saveSupabaseProgress(totalKm){
+      if (!sb || !currentUser){
+        setStatus("Run saved on this device. Log in to save online.", "status-saved");
+        return false;
+      }
+
+      const cleanTotal = Number(totalKm.toFixed(2));
+
+      const check = await sb
+        .from("user_progress")
+        .select("user_id, race_id")
+        .eq("user_id", currentUser.id)
+        .eq("race_id", RUN_ID)
+        .limit(1);
+
+      if (check.error){
+        console.log("Cloud progress check failed:", check.error.message);
+        setStatus("Run saved on device. Cloud save failed.", "status-saved");
+        return false;
+      }
+
+      if (check.data && check.data.length > 0){
+        const update = await sb
+          .from("user_progress")
+          .update({ distance_done: cleanTotal })
+          .eq("user_id", currentUser.id)
+          .eq("race_id", RUN_ID);
+
+        if (update.error){
+          console.log("Cloud progress update failed:", update.error.message);
+          setStatus("Run saved on device. Cloud save failed.", "status-saved");
+          return false;
+        }
+      } else {
+        const insert = await sb
+          .from("user_progress")
+          .insert({
+            user_id: currentUser.id,
+            race_id: RUN_ID,
+            distance_done: cleanTotal
+          });
+
+        if (insert.error){
+          console.log("Cloud progress insert failed:", insert.error.message);
+          setStatus("Run saved on device. Cloud save failed.", "status-saved");
+          return false;
+        }
+      }
+
+      cloudTotalKm = cleanTotal;
+      return true;
+    }
+
+    async function resetSupabaseProgress(){
+      if (!sb || !currentUser){
+        cloudTotalKm = 0;
+        return;
+      }
+
+      await saveSupabaseProgress(0);
+      cloudTotalKm = 0;
+    }
+
+    function getCollectableState(){
+      const saved = JSON.parse(localStorage.getItem(COLLECTABLES_KEY) || "{}");
+      const legacyMap = {
+        card1: "RS25",
+        card2: "RS50",
+        card3: "RS75",
+        card4: "RS100"
+      };
+      const state = {};
+      COLLECTABLE_DEFS.forEach(card => {
+        state[card.id] = !!saved[card.id];
+      });
+
+      Object.entries(legacyMap).forEach(([legacyId, newId]) => {
+        if (saved[legacyId]) state[newId] = true;
+      });
+
+      return state;
+    }
+
+    function getVaultState(){
+      const raw = JSON.parse(localStorage.getItem(WRW_VAULT_KEY) || "{}");
+      if (!raw || typeof raw !== "object" || Array.isArray(raw)) return { version: 1, runs: {} };
+      if (!raw.version) raw.version = 1;
+      if (!raw.runs || typeof raw.runs !== "object" || Array.isArray(raw.runs)) {
+        const legacyRuns = {};
+        Object.keys(raw).forEach(key => {
+          if (key !== "version" && raw[key] && typeof raw[key] === "object" && !Array.isArray(raw[key])) {
+            legacyRuns[key] = raw[key];
+          }
+        });
+        raw.runs = legacyRuns;
+      }
+      return raw;
+    }
+
+    function saveVaultState(vault){
+      localStorage.setItem(WRW_VAULT_KEY, JSON.stringify(vault));
+    }
+
+    function getRunVault(){
+      const vault = getVaultState();
+      if (!vault.runs[RUN_ID]) {
+        vault.runs[RUN_ID] = {
+          runId: RUN_ID,
+          runName: "The Rattlesnake",
+          targetKm: TARGET_KM,
+          totalKm: 0,
+          completed: false,
+          totalRuns: 0,
+          cards: {},
+          unlockedCards: [],
+          updatedAt: new Date().toISOString()
+        };
+      }
+      return { vault, runVault: vault.runs[RUN_ID] };
+    }
+
+    function syncRunToVault(){
+      const { vault, runVault } = getRunVault();
+      const sessions = getSessions();
+      const totalKm = getTotalKm();
+      const collectableState = getCollectableState();
+
+      runVault.runId = RUN_ID;
+      runVault.runName = "The Rattlesnake";
+      runVault.targetKm = TARGET_KM;
+      runVault.totalKm = Number(totalKm.toFixed(2));
+      runVault.completed = totalKm >= TARGET_KM;
+      runVault.totalRuns = sessions.length;
+      runVault.updatedAt = new Date().toISOString();
+      runVault.cards = runVault.cards || {};
+
+      COLLECTABLE_DEFS.forEach(card => {
+        if (collectableState[card.id]) {
+          runVault.cards[card.id] = {
+            id: card.id,
+            name: card.name,
+            label: card.label,
+            file: card.file,
+            km: card.km,
+            unlocked: true,
+            unlockedAt: runVault.cards[card.id]?.unlockedAt || new Date().toISOString()
+          };
+        }
+      });
+
+      runVault.unlockedCards = COLLECTABLE_DEFS
+        .filter(card => !!runVault.cards[card.id]?.unlocked)
+        .map(card => card.id);
+
+      saveVaultState(vault);
+    }
+
+    function saveCollectableState(state){
+      localStorage.setItem(COLLECTABLES_KEY, JSON.stringify(state));
+      syncRunToVault();
+    }
+
+    function updateCollectablesHeader(){
+      const state = getCollectableState();
+      const unlockedCount = Object.values(state).filter(Boolean).length;
+      const totalCount = COLLECTABLE_DEFS.length;
+      const isOpen = collectablesContent.classList.contains("open");
+      collectablesMeta.textContent = `${unlockedCount} / ${totalCount} · ${isOpen ? "Hide" : "Show"}`;
+    }
+
+    function openCollectableCard(file, name){
+      cardPopupImage.src = file;
+      cardPopupImage.alt = name || "Collectable card";
+      cardPopupName.textContent = name || "Collectable Card";
+      downloadCardBtn.href = file;
+      downloadCardBtn.setAttribute("download", file.split("/").pop());
+      collectableViewOverlay.classList.add("show");
+    }
+    window.openCollectableCard = openCollectableCard;
+
+    function closeCollectableCard(){
+      collectableViewOverlay.classList.remove("show");
+    }
+
+    function renderCollectables(){
+      const state = getCollectableState();
+      collectablesGrid.innerHTML = COLLECTABLE_DEFS.map(card => {
+        const unlocked = !!state[card.id];
+        const safeName = card.name.replace(/'/g, "\\'");
+        return `
+          <div class="collectable-card ${unlocked ? "unlocked" : "locked"}" ${unlocked ? `onclick="openCollectableCard('${card.file}','${safeName}')"` : ""}>
+            <img src="${card.file}" alt="${card.name}">
+            <div class="collectable-overlay">
+              <div class="collectable-lock">${unlocked ? "✓" : "🔒"}</div>
+              <div class="collectable-name">${unlocked ? `${card.name} · ${card.label}` : "???"}</div>
+              <div class="collectable-status">${unlocked ? `${card.label} unlocked` : `Hidden reward · ${card.km.toFixed(2)} km`}</div>
+            </div>
+          </div>
+        `;
+      }).join("");
+      updateCollectablesHeader();
+    }
+
+    function showCollectableUnlock(card){
+      currentUnlockCard = card;
+      collectableUnlockImage.src = card.file;
+      collectableUnlockImage.alt = card.name;
+      collectableUnlockImage.classList.remove("revealed");
+      collectableUnlockName.textContent = `${card.name} · ${card.label}`;
+      collectableUnlockName.style.display = "none";
+      collectableRevealCover.style.display = "flex";
+      collectableRevealCover.classList.remove("flash");
+      viewCollectableBtn.disabled = true;
+      collectableUnlockOverlay.classList.add("show");
+    }
+
+    function hideCollectableUnlock(){
+      collectableUnlockOverlay.classList.remove("show");
+    }
+
+    function revealUnlockedCard(){
+      if (!currentUnlockCard) return;
+      collectableRevealCover.classList.add("flash");
+      collectableRevealCover.style.display = "none";
+      collectableUnlockImage.classList.add("revealed");
+      collectableUnlockName.style.display = "block";
+      viewCollectableBtn.disabled = false;
+    }
+
+    function checkCollectableUnlocks(totalKm){
+      const state = getCollectableState();
+      let newlyUnlocked = null;
+
+      for (const card of COLLECTABLE_DEFS){
+        if (totalKm >= card.km && !state[card.id]){
+          state[card.id] = true;
+          if (!newlyUnlocked) newlyUnlocked = card;
+        }
+      }
+
+      saveCollectableState(state);
+      renderCollectables();
+
+      if (newlyUnlocked){
+        showCollectableUnlock(newlyUnlocked);
+      }
+    }
+
+    function updateTopSummary(){
+      const sessions = getSessions();
+      runsSavedCount.textContent = `${sessions.length} ${sessions.length === 1 ? "run" : "runs"}`;
+
+      if (!sessions.length){
+        lastSavedRun.textContent = "No runs saved yet";
+        return;
+      }
+
+      const last = sessions[sessions.length - 1];
+      const dateText = new Date(last.date).toLocaleDateString();
+      lastSavedRun.textContent = `${last.distanceKm.toFixed(2)} km · ${dateText}`;
+    }
+
+    function updateRouteVisual(totalKm){
+      const pct = Math.max(0, Math.min(totalKm / TARGET_KM, 1));
+      const pathLength = routeFillPath.getTotalLength();
+      routeFillPath.style.strokeDasharray = pathLength;
+      routeFillPath.style.strokeDashoffset = pathLength * (1 - pct);
+
+      const haloPath = document.getElementById("routeFillHalo");
+      if (haloPath){
+        haloPath.style.strokeDasharray = pathLength;
+        haloPath.style.strokeDashoffset = pathLength * (1 - pct);
+      }
+
+      routePercentEl.textContent = `${Math.round(pct * 100)}%`;
+
+      const stage = pct >= 1 ? "Finish line"
+        : pct >= .75 ? "Final stretch"
+        : pct >= .50 ? "Danger zone"
+        : pct >= .25 ? "Midway"
+        : "Start line";
+      routeStageEl.textContent = stage;
+
+      document.getElementById("mile25").classList.toggle("done", pct >= .25);
+      document.getElementById("mile50").classList.toggle("done", pct >= .50);
+      document.getElementById("mile75").classList.toggle("done", pct >= .75);
+      document.getElementById("mile100").classList.toggle("done", pct >= 1);
+
+      const dot25 = document.getElementById("dot25");
+      const dot50 = document.getElementById("dot50");
+      const dot75 = document.getElementById("dot75");
+      const dot100 = document.getElementById("dot100");
+
+      [[dot25, pct >= .25], [dot50, pct >= .50], [dot75, pct >= .75], [dot100, pct >= 1]].forEach(([dot, done]) => {
+        dot.classList.toggle("done", done);
+        const baseR = Number(dot.getAttribute("data-base-r") || dot.getAttribute("r") || 12);
+        dot.setAttribute("r", done ? String(baseR + 2) : String(baseR));
+      });
+    }
+
+    function updateFinishMessage(){
+      finishMessage.innerHTML = `
+        Attach your fitness app screenshot(s) to your email.<br><br>
+        Make sure your distance is clearly visible.
+      `;
+    }
+
+    function updateOverallProgress(){
+      const totalKm = getTotalKm();
+      savedTotalKmEl.textContent = totalKm.toFixed(2);
+
+      const pct = Math.min((totalKm / TARGET_KM) * 100, 100);
+      progressFillEl.style.width = pct + "%";
+      updateRouteVisual(totalKm);
+
+      finishTotalEl.textContent = totalKm.toFixed(2);
+      updateFinishMessage();
+      updateTopSummary();
+      checkCollectableUnlocks(totalKm);
+
+      if (totalKm >= TARGET_KM){
+        completionActions.style.display = "flex";
+        setStatus("10K complete", "status-complete");
+
+        const alreadyComplete = localStorage.getItem(COMPLETE_KEY) === "true";
+        if (!alreadyComplete){
+          localStorage.setItem(COMPLETE_KEY, "true");
+          showFinishPopup();
+        }
+      } else {
+        completionActions.style.display = "none";
+        setStatus("Ready to log progress", "status-ready");
+      }
+    }
+
+    function renderSessions(){
+      const sessions = getSessions();
+
+      if (!sessions.length){
+        sessionListEl.innerHTML = `
+          <div class="session-item">
+            <div class="session-meta">No runs saved yet.</div>
+          </div>
+        `;
+        return;
+      }
+
+      const reversed = sessions.slice().reverse();
+
+      sessionListEl.innerHTML = reversed.map((session, reversedIndex) => `
+        <div class="session-item">
+          <div class="session-top">
+            <span>Run ${sessions.length - reversedIndex}</span>
+            <span>${session.distanceKm.toFixed(2)} km</span>
+          </div>
+
+          <div class="session-badge badge-log">Logged run</div>
+
+          <div class="session-meta">
+            Date: ${new Date(session.date).toLocaleDateString()}
+          </div>
+        </div>
+      `).join("");
+
+      updateCollectablesHeader();
+    }
+
+    function showFinishPopup(){
+      finishOverlay.classList.add("show");
+    }
+
+    function hideFinishPopup(){
+      finishOverlay.classList.remove("show");
+    }
+
+    async function addRun(){
+      const distanceKm = Number(manualDistanceInput.value);
+      const selectedDate = manualDateInput.value;
+
+      if (!distanceKm || distanceKm <= 0){
+        alert("Enter a valid distance.");
+        return;
+      }
+
+      if (!selectedDate){
+        alert("Select a date for this run.");
+        return;
+      }
+
+      const sessions = getSessions();
+      sessions.push({
+        date: new Date(selectedDate + "T12:00:00").toISOString(),
+        distanceKm
+      });
+      saveSessions(sessions);
+
+      manualDistanceInput.value = "";
+      manualDateInput.value = new Date().toISOString().split("T")[0];
+
+      renderSessions();
+      updateOverallProgress();
+
+      const totalKm = getTotalKm();
+      const cloudSaved = await saveSupabaseProgress(totalKm);
+
+      if (cloudSaved){
+        setStatus("Run saved to your WRW account", "status-saved");
+      } else {
+        setStatus("Run saved on this device", "status-saved");
+      }
+    }
+
+    function sendProofEmail(){
+      const totalKm = getTotalKm();
+      const body = [
+        "Hi WRW,",
+        "",
+        "I have completed The Rattlesnake 10K.",
+        "",
+        "My details:",
+        "Full Name:",
+        "Address (first line):",
+        "",
+        "Attached are my proof screenshots.",
+        "",
+        `Total logged distance: ${totalKm.toFixed(2)} km`,
+        "",
+        "Thanks"
+      ].join("\n");
+
+      const subject = encodeURIComponent("WRW Rattlesnake 10K Proof");
+      const emailBody = encodeURIComponent(body);
+      window.location.href = `mailto:${WRW_EMAIL}?subject=${subject}&body=${emailBody}`;
+    }
+
+    function closeOverlayOnBackdrop(overlay, closeFn){
+      overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) closeFn();
+      });
+    }
+
+    authLoginBtn.addEventListener("click", authLogin);
+    authSignupBtn.addEventListener("click", authSignup);
+    authResetBtn.addEventListener("click", authResetPassword);
+
+    authPasswordInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") authLogin();
+    });
+
+    manualAddBtn.addEventListener("click", addRun);
+    stravaHelpBtn.addEventListener("click", () => howItWorksOverlay.classList.add("show"));
+
+    logToggle.addEventListener("click", () => toggleSection(logContent, logToggleText));
+    savedRunsToggle.addEventListener("click", () => toggleSection(savedRunsContent, savedRunsToggleText));
+    loginHowItWorksToggle.addEventListener("click", () => toggleSection(loginHowItWorksContent, loginHowItWorksToggleText));
+    sendProofHelpToggle.addEventListener("click", () => toggleSection(sendProofHelpContent, sendProofHelpToggleText));
+    collectablesToggle.addEventListener("click", () => toggleSection(collectablesContent, null));
+
+    closeHowItWorksBtn.addEventListener("click", () => howItWorksOverlay.classList.remove("show"));
+    closeFinishBtn.addEventListener("click", hideFinishPopup);
+    viewCompletionBtn.addEventListener("click", showFinishPopup);
+    proofBtn.addEventListener("click", sendProofEmail);
+
+    collectableRevealCover.addEventListener("click", revealUnlockedCard);
+    collectableRevealCover.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        revealUnlockedCard();
+      }
+    });
+    closeCollectableUnlockBtn.addEventListener("click", hideCollectableUnlock);
+    viewCollectableBtn.addEventListener("click", () => {
+      hideCollectableUnlock();
+      if (currentUnlockCard) {
+        openCollectableCard(currentUnlockCard.file, currentUnlockCard.name);
+      } else {
+        if (!collectablesContent.classList.contains("open")) toggleSection(collectablesContent, null);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    });
+
+    closeCardPopupBtn.addEventListener("click", closeCollectableCard);
+
+    resetBtn.addEventListener("click", openResetConfirm);
+    cancelResetBtn.addEventListener("click", closeResetConfirm);
+    confirmResetBtn.addEventListener("click", performResetProgress);
+    resetConfirmInput.addEventListener("input", () => {
+      confirmResetBtn.disabled = resetConfirmInput.value.trim().toUpperCase() !== "WRW";
+    });
+
+    logoutBtn.addEventListener("click", authLogout);
+
+    closeOverlayOnBackdrop(finishOverlay, hideFinishPopup);
+    closeOverlayOnBackdrop(collectableUnlockOverlay, hideCollectableUnlock);
+    closeOverlayOnBackdrop(collectableViewOverlay, closeCollectableCard);
+    closeOverlayOnBackdrop(howItWorksOverlay, () => howItWorksOverlay.classList.remove("show"));
+    closeOverlayOnBackdrop(resetConfirmOverlay, closeResetConfirm);
+
+    manualDateInput.value = new Date().toISOString().split("T")[0];
+    routeFillPath.style.strokeDasharray = routeFillPath.getTotalLength();
+    routeFillPath.style.strokeDashoffset = routeFillPath.getTotalLength();
+
+    window.WRWVault = {
+      getVault: getVaultState,
+      getRun: () => getVaultState().runs?.[RUN_ID] || null
+    };
+
+    syncRunToVault();
+    renderSessions();
+    renderCollectables();
+    updateOverallProgress();
+    updateCollectablesHeader();
+
+    if (sb){
+      sb.auth.onAuthStateChange(() => {
+        checkAuthSession();
+      });
+    }
+
+    checkAuthSession();
+  </script>
+</body>
+</html>
